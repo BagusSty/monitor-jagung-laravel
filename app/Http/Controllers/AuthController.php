@@ -27,6 +27,7 @@ class AuthController extends Controller
             return view('dashboard');
         } else {
             if(Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+                session(['user' => Auth::user()->username]);
                 if(Auth::user()->role == 1) {
                     return redirect()->intended(route('home'));
                 } elseif(Auth::user()->role == 2) {
