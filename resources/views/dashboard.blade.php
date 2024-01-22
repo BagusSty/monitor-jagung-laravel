@@ -1,6 +1,6 @@
 @extends('includes.header')
 
-@section('title', 'Home')
+@section('title', 'Dashboard')
 
 @section('content')
 <h1>Hello World</h1>

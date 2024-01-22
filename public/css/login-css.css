@@ -1,0 +1,116 @@
+body {
+  background-color: #7DCD7B;
+  height: 100vh;
+  background-image: url('../img/bg-login.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+body::before {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: -1;
+  background: -webkit-linear-gradient(bottom, #036103, #bbff99);
+  width: 100%;
+  height: 100%;
+  opacity: 70%;
+
+}
+
+
+.img-login {
+  background-color: #FFF;
+  text-align: center;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-img {
+  text-align: center;
+  width: 50%;
+  height: 50%;
+  object-fit: cover;
+}
+
+.login_page {
+  width: 500px;
+  padding: 10% 0 0;
+  margin: auto
+}
+
+
+.form {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.form input {
+  font-family: "Roboto", Sans-serif;
+  outline: 1;
+  width: 80%;
+  border: 0;
+  margin: 0 0 20px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 30px;
+  outline: none;
+}
+
+
+.form button {
+  font-family: "Roboto", Sans-serif;
+  text-transform: uppercase;
+  background: #304241;
+  width: 80%;
+  border-radius: 30px;
+  padding: 15px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.form button:hover,
+.form button:active {
+  background: rgb(0, 94, 235);
+  background: linear-gradient(90deg, rgba(0, 94, 235, 1) 0%, rgba(0, 195, 251, 1) 100%);
+}
+
+.form .message {
+  margin: 15px 0 0;
+  color: aliceblue;
+  font-size: 16px
+}
+
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none
+}
+
+
+
+
+/* mobile */
+@media (max-width: 768px) {
+  .login_page {
+    width: 100%;
+    padding: 10% 0 0;
+    margin: auto
+  }
+
+}
+
+/*# sourceMappingURL=login-css.css.map */
