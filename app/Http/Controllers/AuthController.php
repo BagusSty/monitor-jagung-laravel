@@ -39,11 +39,9 @@ class AuthController extends Controller
             }
         }
     }
-    public function tes() {
-        $user = User::all();
-        return response()->json([
-            'user'=> $user,
-        ]);
+    public function logout() {
+        Auth::logout();
+        return redirect('login')->with('success','Berhasil Logout');
     }
 
 }

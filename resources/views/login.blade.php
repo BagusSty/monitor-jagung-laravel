@@ -10,11 +10,21 @@
 <div class="container">
     <div class="login_page">
         <div class="img-login">
-            <img class=" login-img" src="{{ asset('img/pekabiss_logo.png') }}" alt="">
+            <img class=" login-img" src="{{ asset('img/jagung.png') }}" alt="">
+        </div>
+        <div class="text-center mb-4">
+            <h4>Monitoring Produk Jagung</h4>
         </div>
         @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"
                     aria-label="Close"></button>
             </div>
