@@ -3,7 +3,7 @@
       <span class="fs-5 fw-semibold text-center">Monitoring Benih Jagung</span>
     </a>
     <ul class="list-unstyled ps-0">
-      <li class="mb-1 @if(Request::is('/') || Request::is('/dashboard')) active @endif">
+      <li class="mb-1 @if(Request::is('/')) active @endif">
         <a href="{{ url('/') }}" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed @if(Request::is('/')) disabled @endif">
             <i class="fa-solid fa-house  me-2"></i> Dashboard
         </a>
@@ -16,8 +16,8 @@
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Data Distributor</a></li>
             <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Data Kios</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Data Produk</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Data Gaslap</a></li>
+            <li class="@if(Route::currentRouteName() == 'produk') active @endif"><a href="{{ url('/produk')}}" class="link-dark d-inline-flex text-decoration-none rounded @if(Request::is('produk*')) disabled @endif">Data Produk</a></li>
+            <li class="@if(Route::currentRouteName() == 'gaslap') active @endif"><a href="{{ url('/gaslap') }}" class="link-dark d-inline-flex text-decoration-none rounded collapsed @if(Request::is('gaslap*')) disabled @endif">Data Gaslap</a></li>
           </ul>
         </div>
       </li>
@@ -29,3 +29,14 @@
       </li>
     </ul>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const disabledLinks = document.querySelectorAll('.disabled');
+
+        disabledLinks.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+            });
+        });
+    });
+</script>

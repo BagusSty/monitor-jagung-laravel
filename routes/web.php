@@ -19,3 +19,5 @@ Route::get('/login', function () {
 Route::get('/', [App\Http\Controllers\AuthController::class,'index'])->name('home');
 Route::post('/login', [App\Http\Controllers\AuthController::class,'login']);
 Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+Route::get('/gaslap', [App\Http\Controllers\GaslapController::class,'index'])->name('gaslap');
+Route::get('/produk', [App\Http\Controllers\ProdukController::class,'index'])->name('produk');
