@@ -14,7 +14,8 @@
         </a>
         <div class="collapse" id="dashboard-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Data Wilayah</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Data Distributor</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Data Kios</a></li>
             <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Data Produk</a></li>
             <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Data Gaslap</a></li>
           </ul>
