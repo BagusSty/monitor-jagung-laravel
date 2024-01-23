@@ -14,7 +14,6 @@
             <div class="row m-2">
                 <div class="col-6">
                     <a href="#" class="btn btn-primary"><i class="fa-solid fa-plus me-2"></i>Tambah</a>
-                    <a href="#" class="btn btn-success"><i class="fa-solid fa-print me-2"></i>Cetak</a>
                 </div>
                 <div class="col-6 text-end">
                     <p class="m-2">Data Produk Jagung</p>

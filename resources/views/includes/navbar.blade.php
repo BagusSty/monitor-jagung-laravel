@@ -17,9 +17,6 @@
                 <i class="fa-solid fa-user me-2"></i>{{ session('user') }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Profil</a></li>
-              <li><a class="dropdown-item" href="#">Pengaturan</a></li>
-              <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="{{ url('/logout')}}">Logout</a></li>
             </ul>
           </li>
