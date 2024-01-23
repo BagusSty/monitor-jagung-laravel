@@ -9,12 +9,20 @@ class Gaslap extends Model
 {
     use HasFactory;
     protected $table = 'gaslap';
-    protected $primary_key = 'gaslap_id';
+    protected $primaryKey = 'gaslap_id';
     protected $fillable = [
         'user_id',
         'nip',
         'nama_gaslap',
     ];
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($gaslap) {
+            $gaslap->gaslap_id = 'GASLAP-' . str_pad(Gaslap::count() + 1, 4, '0', STR_PAD_LEFT);
+        });
+    }
     protected $hidden = [
         'created_at',
         'updated_at',
@@ -23,7 +31,7 @@ class Gaslap extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
-    public function user(){
+    public function users(){
         return $this->belongsTo(User::class);
     }
 }
