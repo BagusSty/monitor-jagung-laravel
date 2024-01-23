@@ -24,3 +24,6 @@ Route::post('/gaslap/tambah', [App\Http\Controllers\GaslapController::class,'cre
 Route::post('/gaslap/{user_id}/{gaslap_id}/edit', [App\Http\Controllers\GaslapController::class, 'update'])->name('update.gaslap');
 Route::get('/gaslap/{user_id}/{gaslap_id}/hapus', [App\Http\Controllers\GaslapController::class, 'destroy'])->name('delete.gaslap');
 Route::get('/produk', [App\Http\Controllers\ProdukController::class,'index'])->name('produk');
+Route::post('/produk/tambah', [App\Http\Controllers\ProdukController::class,'create'])->name('create.produk');
+Route::post('/produk/{produk_id}/edit', [App\Http\Controllers\ProdukController::class, 'update'])->name('update.produk');
+Route::get('/produk/{produk_id}/hapus', [App\Http\Controllers\ProdukController::class, 'destroy'])->name('delete.produk');

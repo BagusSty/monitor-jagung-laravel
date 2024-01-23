@@ -87,7 +87,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">
                     <thead>
-                        <tr class="text-center">
+                        <tr>
                             <th class="col">Edit</th>
                             <th class="col">Hapus</th>
                             <th class="col">Nama Gaslap</th>
@@ -98,7 +98,7 @@
                     <tbody>
                         @foreach ($gaslap as $gs)
                         <tr>
-                            <td class="text-center">
+                            <td>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#ModalEdit-{{$gs->gaslap_id}}">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
@@ -150,7 +150,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-center">
+                            <td>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#ModalHapus-{{$gs->gaslap_id}}">
                                     <i class="fa-solid fa-trash"></i>
                                 </a>

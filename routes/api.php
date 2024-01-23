@@ -17,4 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/gaslap', [App\Http\Controllers\GaslapController::class,'index'])->name('gaslap');
+Route::get('/produk', [App\Http\Controllers\ProdukController::class,'index'])->name('gaslap');

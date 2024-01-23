@@ -68,7 +68,7 @@ class GaslapController extends Controller
                 $gaslap->save();
                 DB::commit();
 
-                return redirect()->back()->with('success','Data gaslap berhasil ditambahkan');
+                return redirect()->back()->with('success','Data gaslap berhasil diupdate');
                 // return response()->json([
                 //     'succes' => $user
                 // ], 200);
@@ -76,7 +76,7 @@ class GaslapController extends Controller
             } catch (\Exception $e) {
                 DB::rollback();
 
-                return redirect()->back()->with('error', 'Gagal menambahkan data');
+                return redirect()->back()->with('error', 'Gagal Mengupdate data');
                 // return response()->json([
                 //     'error'=> $e->getMessage(),
                 // ], 400);
@@ -95,11 +95,11 @@ class GaslapController extends Controller
                 $user->delete();
                 DB::commit();
 
-                return redirect()->back()->with('success','Data gaslap berhasil ditambahkan');
+                return redirect()->back()->with('success','Data gaslap berhasil dihapus');
             } catch (\Exception $e) {
                 DB::rollback();
 
-                return redirect()->back()->with('error', 'Gagal menambahkan data');
+                return redirect()->back()->with('error', 'Gagal menghapus data');
             }
         } else {
             return redirect('login')->with('error','Anda Belum Login');
