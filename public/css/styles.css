@@ -27,12 +27,21 @@
     color: #333;
     text-decoration: none;
   }
-
-  .sidebar a:hover {
-    background-color: #e9ecef; /* Warna latar belakang saat hover */
+  .sidebar li {
+    border-radius: 20px;
+    margin: 10px 0;
   }
 
-  /* Content styling */
+  .sidebar li:hover {
+    border: 1px solid #e9ecef;
+  }
+  .sidebar .active {
+    background-color: #e9ecef;
+  }
+  .show {
+    background-color: #e9ecef;
+  }
+
   .content {
     margin-left: 280px;
     padding: 20px;
