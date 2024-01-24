@@ -22,7 +22,7 @@ class Produk extends Model
 
         static::creating(function ($produk) {
             // Use DB::table instead of the Eloquent model to avoid potential issues
-            $count = DB::table('gaslaps')->count() + 1;
+            $count = DB::table('produk')->count() + 1;
             $produk->produk_id = 'JGG-' . str_pad($count, 4, '0', STR_PAD_LEFT);
         });
     }

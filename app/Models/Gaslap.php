@@ -28,6 +28,7 @@ class Gaslap extends Model
         'updated_at',
     ];
     protected $casts = [
+        'gaslap_id'=> 'string',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+
 class User extends Authenticatable
 {
     use HasFactory;
@@ -12,6 +13,7 @@ class User extends Authenticatable
     protected $table = "users";
     protected $primaryKey = "user_id";
     protected $fillable = [
+        'user_id',
         'username',
         'password',
         'role',
@@ -21,6 +23,11 @@ class User extends Authenticatable
         'password',
         'created_at',
         'updated_at',
+    ];
+    protected $casts = [
+        'user_id'=> 'string',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function gaslap()

@@ -25,13 +25,15 @@ class GaslapController extends Controller
         if(Auth::check() && session("role") == 1) {
             try {
                 DB::beginTransaction();
-
+                $u = DB::table("users")->count() + 1;
                 $user = User::create([
+                    'user_id' => 'USR-' . str_pad($u + 1, 4, '0', STR_PAD_LEFT),
                     'username' => $request->username,
                     'password' => bcrypt($request->password),
                     'role' => 2,
                     'created_at' => now(),
                 ]);
+                $user->refresh();
                 $user_detail = Gaslap::create([
                     'user_id'=> $user->user_id,
                     'nama_gaslap' => $request->nama_gaslap,
@@ -41,11 +43,17 @@ class GaslapController extends Controller
                 DB::commit();
 
                 return redirect()->back()->with('success','Data gaslap berhasil ditambahkan');
+                // return response()->json([
+                //     'succes' => $user
+                // ], 200);
 
             } catch (\Exception $e) {
                 DB::rollback();
 
-                return redirect()->back()->with('error', 'Gagal menambahkan data');
+                return redirect()->back()->with('error', 'Gagal Mengupdate data');
+                // return response()->json([
+                //     'error'=> $e->getMessage(),
+                // ], 400);
             }
         } else {
             return redirect('login')->with('error','Anda Belum Login');
