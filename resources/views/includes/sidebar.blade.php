@@ -14,8 +14,8 @@
         </a>
         <div class="collapse" id="dashboard-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Data Distributor</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Data Kios</a></li>
+            <li class="@if(Route::currentRouteName() == 'distributor') active @endif"><a href="{{ url('/distributor')}}" class="link-dark d-inline-flex text-decoration-none rounded @if(Request::is('distributor*')) disabled @endif">Data Distributor</a></li>
+            <li class="@if(Route::currentRouteName() == 'kios') active @endif"><a href="{{ url('/kios')}}" class="link-dark d-inline-flex text-decoration-none rounded @if(Request::is('kios*')) disabled @endif">Data Kios</a></li>
             <li class="@if(Route::currentRouteName() == 'produk') active @endif"><a href="{{ url('/produk')}}" class="link-dark d-inline-flex text-decoration-none rounded @if(Request::is('produk*')) disabled @endif">Data Produk</a></li>
             <li class="@if(Route::currentRouteName() == 'gaslap') active @endif"><a href="{{ url('/gaslap') }}" class="link-dark d-inline-flex text-decoration-none rounded collapsed @if(Request::is('gaslap*')) disabled @endif">Data Gaslap</a></li>
           </ul>
