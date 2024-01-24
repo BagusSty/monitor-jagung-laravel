@@ -17,7 +17,9 @@ Route::get('/login', function () {
     return view('login');
 });
 Route::get('/', [App\Http\Controllers\AuthController::class,'index'])->name('home');
-Route::post('/login', [App\Http\Controllers\AuthController::class,'login']);
+Route::post('/login', [App\Http\Controllers\AuthController::class,'login'])->name('login');
+Route::get('/ubah', [App\Http\Controllers\AuthController::class,'indexChangePW'])->name('ubah-password');
+Route::post('/ubah/password', [App\Http\Controllers\AuthController::class,'changePassword'])->name('ubah');
 Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 Route::get('/gaslap', [App\Http\Controllers\GaslapController::class,'index'])->name('gaslap');
 Route::post('/gaslap/tambah', [App\Http\Controllers\GaslapController::class,'create'])->name('create.gaslap');

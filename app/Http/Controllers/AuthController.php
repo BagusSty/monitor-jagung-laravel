@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -39,6 +40,22 @@ class AuthController extends Controller
                 return back()->with('error','Email atau Password anda salah');
             }
         }
+    }
+    public function indexChangePW() {
+        return view('ubah-password');
+    }
+    public function changePassword(Request $request) {
+        $user = User::where('username', $request->username)->first();
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            return back()->with('error','Ubah password gagal');
+        }
+
+        $user->update([
+            'password'=> bcrypt($request->new_password),
+        ]);
+
+        return redirect('login')->with('success','Password berhasil diubah');
     }
     public function logout() {
         Auth::logout();

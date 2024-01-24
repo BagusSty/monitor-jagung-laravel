@@ -45,8 +45,6 @@ body::before {
   padding: 10% 0 0;
   margin: auto
 }
-
-
 .form {
   position: relative;
   z-index: 1;
@@ -99,10 +97,14 @@ body::before {
   color: #4CAF50;
   text-decoration: none
 }
+.form .btn-pw {
+    color: white;
+    text-decoration: underline;
+}
 
-
-
-
+.form .btn-pw:hover {
+    color: rgba(0, 195, 251);
+}
 /* mobile */
 @media (max-width: 768px) {
   .login_page {
@@ -113,4 +115,3 @@ body::before {
 
 }
 
-/*# sourceMappingURL=login-css.css.map */
