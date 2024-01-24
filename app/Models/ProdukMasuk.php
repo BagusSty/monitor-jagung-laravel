@@ -9,8 +9,9 @@ class ProdukMasuk extends Model
 {
     use HasFactory;
     protected $table = 'produk_masuk';
-    protected $primaryKey = 'kode_produk_masuk';
+    protected $primaryKey = 'id_produk_masuk';
     protected $fillable = [
+        'kode_produk',
         'produk_id',
         'gaslap_id',
         'dist_id',
@@ -32,5 +33,14 @@ class ProdukMasuk extends Model
     ];
     public function produk() {
         return $this->belongsTo(Produk::class);
+    }
+    public function kios() {
+        return $this->belongsTo(Kios::class);
+    }
+    public function distributor() {
+        return $this->belongsTo(Distributor::class);
+    }
+    public function gaslap() {
+        return $this->belongsTo(Gaslap::class);
     }
 }

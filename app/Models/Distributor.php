@@ -32,4 +32,8 @@ class Distributor extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function produkMasuk() {
+        return $this->hasMany(ProdukMasuk::class);
+    }
 }

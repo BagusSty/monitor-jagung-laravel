@@ -35,4 +35,7 @@ class Gaslap extends Model
     public function users(){
         return $this->belongsTo(User::class);
     }
+    public function produkMasuk(){
+        return $this->hasMany(ProdukMasuk::class);
+    }
 }

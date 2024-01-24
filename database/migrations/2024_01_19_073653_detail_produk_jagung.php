@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('produk_masuk', function (Blueprint $table) {
-            $table->string('kode_produk_masuk', 30)->primary()->unique();
+            $table->integer('id_produk_masuk')->primary();
             $table->string('produk_id',30);
             $table->foreign('produk_id')->references('produk_id')->on('produk');
             $table->string('gaslap_id',30);
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('dist_id')->references('dist_id')->on('distributor');
             $table->string('kios_id',30)->nullable();
             $table->foreign('kios_id')->references('kios_id')->on('kios');
+            $table->string('kode_produk',30);
             $table->dateTime('expired_produk');
             $table->integer('stok');
             $table->string('satuan',10);
