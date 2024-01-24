@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', function () {
     return view('login');
 });
-Route::get('/', [App\Http\Controllers\AuthController::class,'index'])->name('home');
+Route::get('/', [App\Http\Controllers\IndexController::class,'index'])->name('home');
 Route::post('/login', [App\Http\Controllers\AuthController::class,'login'])->name('login');
 Route::get('/ubah', [App\Http\Controllers\AuthController::class,'indexChangePW'])->name('ubah-password');
 Route::post('/ubah/password', [App\Http\Controllers\AuthController::class,'changePassword'])->name('ubah');
@@ -37,8 +37,11 @@ Route::post('/kios/tambah', [App\Http\Controllers\KiosController::class,'create'
 Route::post('/kios/{kios_id}/edit', [App\Http\Controllers\KiosController::class, 'update'])->name('update.kios');
 Route::get('/kios/{kios_id}/hapus', [App\Http\Controllers\KiosController::class, 'destroy'])->name('delete.kios');
 // Distributor
-Route::get('/dist', [App\Http\Controllers\DistributorController::class,'index'])->name('distributor');
+Route::get('/distributor', [App\Http\Controllers\DistributorController::class,'index'])->name('distributor');
 Route::post('/dist/tambah', [App\Http\Controllers\DistributorController::class,'create'])->name('create.dist');
 Route::post('/dist/{produk_id}/edit', [App\Http\Controllers\DistributorController::class, 'update'])->name('update.dist');
 Route::get('/dist/{produk_id}/hapus', [App\Http\Controllers\DistributorController::class, 'destroy'])->name('delete.dist');
-
+// ? entry data produk Masuk
+Route::post('/produk-masuk', [App\Http\Controllers\IndexController::class, 'create'])->name('create.produk-masuk');
+Route::post('/produk-masuk/{id_produk_masuk}/edit', [App\Http\Controllers\IndexController::class,'update'])->name('update.produk-masuk');
+Route::get('/produk-masuk/{produk_masuk_id}/hapus', [App\Http\Controllers\IndexController::class, 'destroy'])->name('destroy.produk-masuk');
