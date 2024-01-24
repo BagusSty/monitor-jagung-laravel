@@ -8,7 +8,7 @@
             <i class="fa-solid fa-house  me-2"></i> Dashboard
         </a>
       </li>
-      <li class="mb-1" style="display: @if(session('role') == 2) none @endif;">
+      <li class="mb-1" style="display: @if(Auth::user()->role == 2) none @endif;">
         <a href="#" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
             <i class="fa-solid fa-database me-2"></i>Data Master
         </a>
