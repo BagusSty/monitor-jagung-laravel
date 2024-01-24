@@ -12,13 +12,7 @@ class AuthController extends Controller
     public function index() {
         $user = Auth::user();
         if (Auth::check()) {
-            if ($user->role == 1) {
-                return view('dashboard');
-            } else if ($user->role == 2) {
-                return view('dashboard');
-            } else {
-                return redirect('login')->with('error','Anda Belum Login');
-            }
+            return view('dashboard');
         } else {
             return redirect('login')->with('error','Anda Belum Login');
         }
@@ -29,13 +23,9 @@ class AuthController extends Controller
         } else {
             if(Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
                 session(['user' => Auth::user()->username]);
-                if(Auth::user()->role == 1) {
-                    return redirect()->intended(route('home'));
-                } elseif(Auth::user()->role == 2) {
-                    return redirect()->intended(route('home'));
-                } else {
-                    return back()->with('error','Email atau Password anda salah');
-                }
+                session(['role'=> Auth::user()->role]);
+
+                return redirect()->intended(route('home'));
             } else {
                 return back()->with('error','Email atau Password anda salah');
             }

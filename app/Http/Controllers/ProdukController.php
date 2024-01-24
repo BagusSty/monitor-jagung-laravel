@@ -9,7 +9,7 @@ use App\Models\Produk;
 class ProdukController extends Controller
 {
     public function index() {
-        if (Auth::check()) {
+        if (Auth::check() && session("role") == 1) {
             $produk = Produk::all();
             return view("data-produk", compact("produk"));
             // return response()->json($produk);
@@ -18,7 +18,7 @@ class ProdukController extends Controller
         }
     }
     public function create(Request $request) {
-        if(Auth::check()) {
+        if(Auth::check() && session("role") == 1) {
             // Mendapatkan tanggal dan bulan saat ini dalam format YYMM
             $dateCode = now()->format('ym');
 
@@ -48,7 +48,7 @@ class ProdukController extends Controller
         }
     }
     public function update(Request $request, $produk_id) {
-        if(Auth::check()) {
+        if(Auth::check() && session("role") == 1) {
             $produk = Produk::where('produk_id', $produk_id)->first();
 
             $produk->nama_produk = $request->nama_produk;
@@ -62,7 +62,7 @@ class ProdukController extends Controller
         }
     }
     public function destroy(Request $request, $produk_id) {
-        if(Auth::check()) {
+        if(Auth::check() && session("role") == 1) {
             $produk = Produk::where('produk_id', $produk_id)->first();
             $produk->delete();
             return redirect()->back()->with('success','Data produk berhasil dihapus');

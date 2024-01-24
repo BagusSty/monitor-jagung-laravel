@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class GaslapController extends Controller
 {
     public function index() {
-        if(Auth::check()) {
+        if(Auth::check() && session("role") == 1) {
             $gaslap = User::join("gaslap", 'users.user_id', '=', 'gaslap.user_id')->get();
             return view("data-gaslap", compact("gaslap"));
             // return response()->json($gaslap);
@@ -22,7 +22,7 @@ class GaslapController extends Controller
 
     }
     public function create(Request $request) {
-        if(Auth::check()) {
+        if(Auth::check() && session("role") == 1) {
             try {
                 DB::beginTransaction();
 
@@ -52,7 +52,7 @@ class GaslapController extends Controller
         }
     }
     public function update(Request $request, $user_id, $gaslap_id) {
-        if(Auth::check()) {
+        if(Auth::check() && session("role") == 1) {
             try {
                 DB::beginTransaction();
                 $user = User::find($user_id);
@@ -86,7 +86,7 @@ class GaslapController extends Controller
         }
     }
     public function destroy(Request $request, $user_id, $gaslap_id) {
-        if(Auth::check()) {
+        if(Auth::check() && session("role") == 1) {
             try {
                 DB::beginTransaction();
                 $user = User::find($user_id);
