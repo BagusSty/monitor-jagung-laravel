@@ -415,7 +415,7 @@
         if (action === 'pdf') {
             document.getElementById('formCetak').action = '/laporanPdf';
         } else if (action === 'excel') {
-            document.getElementById('formCetak').action = '/update-route';
+            document.getElementById('formCetak').action = '/laporanExcel';
         }
         document.getElementById('formCetak').submit();
     }

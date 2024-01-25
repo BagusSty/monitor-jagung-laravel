@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProdukMasukExcel;
 use App\Models\Distributor;
 use App\Models\Gaslap;
 use App\Models\Produk;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Kios;
 use PDF;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IndexController extends Controller
 {
@@ -200,6 +202,24 @@ class IndexController extends Controller
             $pdf = PDF::loadView('pdf.data-produk-masuk-pdf', compact('gaslap', 'tabel'));
                 $pdf->setPaper('A4', 'landscape');
                 return $pdf->download('laporan-produk-masuk-tanggal-' . $request->tanggal . '.pdf');
+        } else {
+            return redirect('login')->with('error','Anda Belum Login');
+        }
+    }
+    public function laporanExcel(Request $request) {
+        if(Auth::check()) {
+            $pilihFilter = $request->pilihFilter;
+            if ($pilihFilter === 'tahun') {
+                $export = new ProdukMasukExcel($request->tahun, $request->bulan, $request->tanggal, Auth::user()->role);
+                $filename = 'laporan-produk-masuk-tahun-'. $request->tahun .'.xlsx';
+            } elseif ($pilihFilter === 'bulan') {
+                $export = new ProdukMasukExcel($request->tahun, $request->bulan, $request->tanggal, Auth::user()->role);
+                $filename = 'laporan-produk-masuk-bulan-'. $request->bulan .'.xlsx';
+            } else {
+                $export = new ProdukMasukExcel($request->tahun, $request->bulan, $request->tanggal, Auth::user()->role);
+                $filename = 'laporan-produk-masuk-tanggal-'. $request->tanggal .'.xlsx';
+            }
+            return Excel::download($export, $filename);
         } else {
             return redirect('login')->with('error','Anda Belum Login');
         }
