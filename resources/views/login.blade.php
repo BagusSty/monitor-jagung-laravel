@@ -13,7 +13,8 @@
             <img class=" login-img" src="{{ asset('img/1.png') }}" alt="">
         </div>
         <div class="text-center mb-4">
-            <h4>Monitoring Produk Jagung</h4>
+            <h4>Comosys Peka</h4>
+            <p>Monitoring Benih Jagung</p>
         </div>
         @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
