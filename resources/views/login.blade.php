@@ -10,7 +10,7 @@
 <div class="container">
     <div class="login_page">
         <div class="img-login">
-            <img class=" login-img" src="{{ asset('img/jagung.png') }}" alt="">
+            <img class=" login-img" src="{{ asset('img/1.png') }}" alt="">
         </div>
         <div class="text-center mb-4">
             <h4>Monitoring Produk Jagung</h4>
