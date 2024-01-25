@@ -62,7 +62,7 @@ class IndexController extends Controller
             }
             $produk_masuk = ProdukMasuk::create([
                 'kode_produk'=> $request->kode,
-                'gaslap_id'=> $request->gs_id,
+                'gaslap_id'=> $request->gaslap,
                 'produk_id' => $request->produk,
                 'stok'=> $request->stok,
                 'satuan' => $request->satuan,
@@ -185,8 +185,9 @@ class IndexController extends Controller
                                     ->leftJoin('distributor','distributor.dist_id','=','produk_masuk.dist_id')
                                     ->leftJoin('kios','kios.kios_id','=','produk_masuk.kios_id')
                                     ->select('produk_masuk.*',  'gaslap.nama_gaslap', 'produk.nama_produk', 'distributor.nama_dist', 'kios.nama_kios')
-                                    ->where('produk_masuk.tanggal', $request->tanggal)
+                                    ->whereBetween('produk_masuk.tanggal', ["{$request->tahun_a}-{$request->bulan_a}-01", "{$request->tahun_b}-{$request->bulan_b}-31"])
                                     ->get();
+
                 } else {
                     $gaslap = Gaslap::where("user_id", Auth::user()->user_id)->get();
                     $tabel = ProdukMasuk::join('gaslap', 'gaslap.gaslap_id', '=', 'produk_masuk.gaslap_id')
@@ -195,13 +196,13 @@ class IndexController extends Controller
                                     ->leftJoin('kios','kios.kios_id','=','produk_masuk.kios_id')
                                     ->select('produk_masuk.*',  'gaslap.nama_gaslap', 'gaslap.user_id', 'produk.nama_produk', 'distributor.nama_dist', 'kios.nama_kios')
                                     ->where('gaslap.user_id', '=', Auth::user()->user_id)
-                                    ->where('produk_masuk.tanggal', $request->tanggal)
+                                    ->whereBetween('produk_masuk.tanggal', ["{$request->tahun_a}-{$request->bulan_a}-01", "{$request->tahun_b}-{$request->bulan_b}-31"])
                                     ->get();
                 }
             }
             $pdf = PDF::loadView('pdf.data-produk-masuk-pdf', compact('gaslap', 'tabel'));
                 $pdf->setPaper('A4', 'landscape');
-                return $pdf->download('laporan-produk-masuk-tanggal-' . $request->tanggal . '.pdf');
+                return $pdf->download('laporan-produk-masuk-periode-' . $request->bulan_a .'-'. $request->bulan_b. '.pdf');
         } else {
             return redirect('login')->with('error','Anda Belum Login');
         }

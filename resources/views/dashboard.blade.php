@@ -169,7 +169,7 @@
                                             <option value="" selected disabled>-- Pilih Filter --</option>
                                             <option value="tahun">Tahun</option>
                                             <option value="bulan">Bulan</option>
-                                            <option value="tanggal">Tanggal</option>
+                                            <option value="custom">Custom</option>
                                         </select>
                                         <div class="mt-3" id="inputPilih">
                                         </div>
@@ -395,7 +395,14 @@
         inputPilih.innerHTML = '';
 
         if (selectedValue === 'tahun') {
-            inputPilih.innerHTML = '<input class="form-control" type="number" name="tahun" placeholder="Input Tahunan">';
+            var currentYear = new Date().getFullYear();
+            var pilihTahun = '<select name="tahun" class="form-select">';
+            for (var i = currentYear; i >= currentYear - 5; i--) {
+                pilihTahun += '<option value="' + i + '">' + i + '</option>';
+            }
+            pilihTahun += '</select>';
+
+            inputPilih.innerHTML = pilihTahun;
         } else if (selectedValue === 'bulan') {
             var pilihBulan = '<select name="bulan" class="form-select">';
             var namaBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -404,8 +411,35 @@
             }
             pilihBulan += '</select>';
             inputPilih.innerHTML = pilihBulan;
-        } else if (selectedValue === 'tanggal') {
-            inputPilih.innerHTML = '<input class="form-control" type="date" name="tanggal">';
+        } else if (selectedValue === 'custom') {
+           inputPilih.innerHTML =   '<div class="row mb-3">' +
+                                    '<label class="form-label">Dari</label>' +
+                                    '<div class="col-md-6"><select name="bulan_a" class="form-select"></select></div>' +
+                                   '<div class="col-md-6"><select name="tahun_a" class="form-select"></select></div>' +
+                                   '</div>'+
+                                   '<div class="row mb-3">' +
+                                    '<label class="form-label">Sampai</label>' +
+                                    '<div class="col-md-6"><select name="bulan_b" class="form-select"></select></div>' +
+                                   '<div class="col-md-6"><select name="tahun_b" class="form-select"></select></div>' +
+                                   '</div>'
+
+            // Fill the dropdowns for bulan a, tahun a, bulan b, dan tahun b
+            var bulanDropdowns = inputPilih.querySelectorAll('select[name^="bulan"]');
+            var tahunDropdowns = inputPilih.querySelectorAll('select[name^="tahun"]');
+            var namaBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+            for (var i = 0; i < namaBulan.length; i++) {
+                bulanDropdowns.forEach(function (dropdown) {
+                    dropdown.innerHTML += '<option value="' + (i + 1) + '">' + namaBulan[i] + '</option>';
+                });
+            }
+
+            var currentYear = new Date().getFullYear();
+            for (var i = currentYear; i >= currentYear - 5; i--) {
+                tahunDropdowns.forEach(function (dropdown) {
+                    dropdown.innerHTML += '<option value="' + i + '">' + i + '</option>';
+                });
+            }
         }
     });
 </script>
