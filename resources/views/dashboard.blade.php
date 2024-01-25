@@ -47,8 +47,8 @@
                                                 <label for="gaslap" class="form-label">Gaslap</label>
                                                 @if (Auth::user()->role == 2)
                                                     @foreach ($gaslap as $gaslapItem)
-                                                        <input type="text" class="form-control" id="gaslap" name="gaslap" value="{{ $gaslapItem->nama_gaslap }}" disabled required>
-                                                        <input type="hidden" name="gs_id" value="{{$gaslapItem->gaslap_id}}">
+                                                        <input type="text" class="form-control" id="gaslap" name="gs" value="{{ $gaslapItem->nama_gaslap }}" disabled required>
+                                                        <input type="hidden" name="gaslap" value="{{$gaslapItem->gaslap_id}}">
                                                     @endforeach
                                                 @endif
                                                 @if (Auth::user()->role == 1)

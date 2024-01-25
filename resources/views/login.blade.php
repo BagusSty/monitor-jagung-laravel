@@ -1,6 +1,6 @@
 @extends('includes.header')
 
-@section('title', 'Login Menu')
+@section('title', 'Login')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/login-css.css') }}">
