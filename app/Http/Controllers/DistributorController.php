@@ -9,7 +9,7 @@ use App\Models\Distributor;
 class DistributorController extends Controller
 {
     public function index() {
-        if (Auth::check() && session("role") == 1) {
+        if (Auth::check() && Auth::user()->role == 1) {
             $distributor = Distributor::all();
             return view("data-distributor", compact("distributor"));
             // return response()->json($distributor);
@@ -18,7 +18,7 @@ class DistributorController extends Controller
         }
     }
     public function create(Request $request) {
-        if(Auth::check() && session("role") == 1) {
+        if(Auth::check() && Auth::user()->role == 1) {
             $distributor = distributor::create([
                 'nama_dist' => $request->nama_dist,
                 'created_at' => now(),
@@ -33,7 +33,7 @@ class DistributorController extends Controller
         }
     }
     public function update(Request $request, $dist_id) {
-        if(Auth::check() && session("role") == 1) {
+        if(Auth::check() && Auth::user()->role == 1) {
             $distributor = distributor::where('dist_id', $dist_id)->first();
 
             $distributor->nama_dist = $request->nama_dist;
@@ -46,7 +46,7 @@ class DistributorController extends Controller
         }
     }
     public function destroy(Request $request, $dist_id) {
-        if(Auth::check() && session("role") == 1) {
+        if(Auth::check() && Auth::user()->role == 1) {
             $distributor = distributor::where('dist_id', $dist_id)->first();
             $distributor->delete();
             return redirect()->back()->with('success','Data distributor berhasil dihapus');

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class KiosController extends Controller
 {
     public function index() {
-        if (Auth::check() && session("role") == 1) {
+        if (Auth::check() && Auth::user()->role == 1) {
             $kios = Kios::all();
             return view("data-kios", compact("kios"));
             // return response()->json($kios);
@@ -18,7 +18,7 @@ class KiosController extends Controller
         }
     }
     public function create(Request $request) {
-        if(Auth::check() && session("role") == 1) {
+        if(Auth::check() && Auth::user()->role == 1) {
             $kios = Kios::create([
                 'nama_kios' => $request->nama_kios,
                 'created_at' => now(),
@@ -33,7 +33,7 @@ class KiosController extends Controller
         }
     }
     public function update(Request $request, $kios_id) {
-        if(Auth::check() && session("role") == 1) {
+        if(Auth::check() && Auth::user()->role == 1) {
             $kios = Kios::where('kios_id', $kios_id)->first();
 
             $kios->nama_kios = $request->nama_kios;
@@ -46,7 +46,7 @@ class KiosController extends Controller
         }
     }
     public function destroy(Request $request, $kios_id) {
-        if(Auth::check() && session("role") == 1) {
+        if(Auth::check() && Auth::user()->role == 1) {
             $kios = kios::where('kios_id', $kios_id)->first();
             $kios->delete();
             return redirect()->back()->with('success','Data kios berhasil dihapus');
