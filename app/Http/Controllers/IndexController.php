@@ -211,14 +211,14 @@ class IndexController extends Controller
         if(Auth::check()) {
             $pilihFilter = $request->pilihFilter;
             if ($pilihFilter === 'tahun') {
-                $export = new ProdukMasukExcel($request->tahun, $request->bulan, $request->tanggal, Auth::user()->role);
+                $export = new ProdukMasukExcel($request->tahun, $request->bulan, $request->bulan_a, $request->tahun_a, $request->bulan_b, $request->tahun_b, Auth::user()->role);
                 $filename = 'laporan-produk-masuk-tahun-'. $request->tahun .'.xlsx';
             } elseif ($pilihFilter === 'bulan') {
-                $export = new ProdukMasukExcel($request->tahun, $request->bulan, $request->tanggal, Auth::user()->role);
+                $export = new ProdukMasukExcel($request->tahun, $request->bulan, $request->bulan_a, $request->tahun_a, $request->bulan_b, $request->tahun_b, Auth::user()->role);
                 $filename = 'laporan-produk-masuk-bulan-'. $request->bulan .'.xlsx';
             } else {
-                $export = new ProdukMasukExcel($request->tahun, $request->bulan, $request->tanggal, Auth::user()->role);
-                $filename = 'laporan-produk-masuk-tanggal-'. $request->tanggal .'.xlsx';
+                $export = new ProdukMasukExcel($request->tahun, $request->bulan, $request->bulan_a, $request->tahun_a, $request->bulan_b, $request->tahun_b, Auth::user()->role);
+                $filename = 'laporan-produk-masuk-periode-' . $request->bulan_a .'-'. $request->bulan_b.'.xlsx';
             }
             return Excel::download($export, $filename);
         } else {

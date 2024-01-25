@@ -11,10 +11,13 @@ class ProdukMasukExcel implements FromCollection
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function __construct($tahun, $bulan, $tanggal, $role) {
+    public function __construct($tahun, $bulan, $bulan_a, $tahun_a, $bulan_b, $tahun_b, $role) {
         $this->tahun = $tahun;
         $this->bulan = $bulan;
-        $this->tanggal = $tanggal;
+        $this->bulan_a = $bulan_a;
+        $this->tahun_a = $tahun_a;
+        $this->bulan_b = $bulan_b;
+        $this->tahun_b = $tahun_b;
         $this->role = $role;
     }
     public function collection()
@@ -37,8 +40,8 @@ class ProdukMasukExcel implements FromCollection
             $query->whereYear('produk_masuk.tanggal', $this->tahun);
         } elseif ($this->bulan !== null) {
             $query->whereMonth('produk_masuk.tanggal', $this->bulan);
-        } elseif ($this->tanggal !== null) {
-            $query->where('produk_masuk.tanggal', $this->tanggal);
+        } elseif ($this->bulan_a !== null) {
+            $query->whereBetween('produk_masuk.tanggal', ["{$this->tahun_a}-{$this->bulan_a}-01", "{$this->tahun_b}-{$this->bulan_b}-31"]);
         }
         return $query->get();
     }
