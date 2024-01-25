@@ -45,10 +45,20 @@
                                         <div class="mb-1 row">
                                             <div class="col-md-6">
                                                 <label for="gaslap" class="form-label">Gaslap</label>
-                                                @foreach ($gaslap as $gaslapItem)
-                                                    <input type="text" class="form-control" id="gaslap" name="gaslap" value="{{ $gaslapItem->nama_gaslap }}" disabled required>
-                                                    <input type="hidden" name="gs_id" value="{{$gaslapItem->gaslap_id}}">
-                                                @endforeach
+                                                @if (Auth::user()->role == 2)
+                                                    @foreach ($gaslap as $gaslapItem)
+                                                        <input type="text" class="form-control" id="gaslap" name="gaslap" value="{{ $gaslapItem->nama_gaslap }}" disabled required>
+                                                        <input type="hidden" name="gs_id" value="{{$gaslapItem->gaslap_id}}">
+                                                    @endforeach
+                                                @endif
+                                                @if (Auth::user()->role == 1)
+                                                    <input type="text" list="gaslaps" class="form-control" name="gaslap" id="exampleSelect" placeholder="Cari gaslap...">
+                                                    <datalist id="gaslaps">
+                                                        @foreach ($gaslap as $gs)
+                                                            <option value="{{$gs->gaslap_id}}">{{$gs->nama_gaslap}}</option>
+                                                        @endforeach
+                                                    </datalist>
+                                                @endif
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="tanggal" class="form-label">Tanggal</label>
@@ -141,7 +151,38 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="btn btn-success"><i class="fa-solid fa-print me-2"></i>Cetak</a>
+                    <button class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#ModalCetak">
+                        <i class="fa-solid fa-print me-2"></i>Cetak
+                    </button>
+                    <!-- Modal Cetak -->
+                    <div class="modal fade" id="ModalCetak" tabindex="-1" aria-labelledby="ModalCetakLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="ModalCetakLabel">Cetak Laporan</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form method="post" id="formCetak">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <select class="form-select" name="pilihFilter"  id="pilihFilter">
+                                            <option value="" selected disabled>-- Pilih Filter --</option>
+                                            <option value="tahun">Tahun</option>
+                                            <option value="bulan">Bulan</option>
+                                            <option value="tanggal">Tanggal</option>
+                                        </select>
+                                        <div class="mt-3" id="inputPilih">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" onclick="submitForm('pdf')"> <i class="fa-solid fa-print me-2"></i>Cetak PDF</button>
+                                        <button type="button" class="btn btn-success" onclick="submitForm('excel')"> <i class="fa-solid fa-print me-2"></i>Cetak Excel</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-6 text-end">
                     <p class="m-2">Data Monitoring Jagung</p>
@@ -336,16 +377,49 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-
- <script>
-        $(document).ready(function () {
-            $('table').DataTable({
-                scrollX: true, // Enable horizontal scrolling
-                fixedHeader: true, // Fix the header
-                paging: true, // Enable pagination
-            });
+{{-- data table --}}
+<script>
+    $(document).ready(function () {
+        $('table').DataTable({
+            scrollX: true,
+            fixedHeader: true,
+            paging: true,
         });
-    </script>
+    });
+</script>
+{{-- input filter laporan --}}
+<script>
+    document.getElementById('pilihFilter').addEventListener('change', function() {
+        var selectedValue = this.value;
+        var inputPilih = document.getElementById('inputPilih');
+        inputPilih.innerHTML = '';
+
+        if (selectedValue === 'tahun') {
+            inputPilih.innerHTML = '<input class="form-control" type="number" name="tahun" placeholder="Input Tahunan">';
+        } else if (selectedValue === 'bulan') {
+            var pilihBulan = '<select name="bulan" class="form-select">';
+            var namaBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            for (var i = 0; i <= namaBulan.length; i++) {
+                pilihBulan += '<option value="' + (i + 1) + '">' + namaBulan[i] + '</option>';
+            }
+            pilihBulan += '</select>';
+            inputPilih.innerHTML = pilihBulan;
+        } else if (selectedValue === 'tanggal') {
+            inputPilih.innerHTML = '<input class="form-control" type="date" name="tanggal">';
+        }
+    });
+</script>
+{{-- submit cetak --}}
+<script>
+    function submitForm(action) {
+        if (action === 'pdf') {
+            document.getElementById('formCetak').action = '/laporanPdf';
+        } else if (action === 'excel') {
+            document.getElementById('formCetak').action = '/update-route';
+        }
+        document.getElementById('formCetak').submit();
+    }
+</script>
 @endsection
 
 

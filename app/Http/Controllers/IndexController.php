@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Kios;
+use PDF;
 
 class IndexController extends Controller
 {
@@ -20,8 +21,8 @@ class IndexController extends Controller
                     ->union(Distributor::select('dist_id as id', 'nama_dist as nama_dist_kios'))
                     ->get();
             $produk = Produk::all();
-            $gaslap = Gaslap::where("user_id", $user->user_id)->get();
             if ($user->role == 1) {
+                $gaslap = Gaslap::all();
                 $tabel = ProdukMasuk::join('gaslap', 'gaslap.gaslap_id', '=', 'produk_masuk.gaslap_id')
                                 ->join('produk', 'produk.produk_id', '=', 'produk_masuk.produk_id')
                                 ->leftJoin('distributor','distributor.dist_id','=','produk_masuk.dist_id')
@@ -29,6 +30,7 @@ class IndexController extends Controller
                                 ->select('produk_masuk.*',  'gaslap.nama_gaslap', 'produk.nama_produk', 'distributor.nama_dist', 'kios.nama_kios')
                                 ->get();
             } else {
+                $gaslap = Gaslap::where("user_id", $user->user_id)->get();
                 $tabel = ProdukMasuk::join('gaslap', 'gaslap.gaslap_id', '=', 'produk_masuk.gaslap_id')
                                 ->join('produk', 'produk.produk_id', '=', 'produk_masuk.produk_id')
                                 ->leftJoin('distributor','distributor.dist_id','=','produk_masuk.dist_id')
@@ -117,6 +119,87 @@ class IndexController extends Controller
 
             $produkMasuk->delete();
             return back()->with('success','Data berhasil dihapus');
+        } else {
+            return redirect('login')->with('error','Anda Belum Login');
+        }
+    }
+    public function laporanPDF(Request $request) {
+        if(Auth::check()) {
+            $pilihFilter = $request->pilihFilter;
+
+            if ($pilihFilter === 'tahun') {
+                if (Auth::user()->role == 1) {
+                    $gaslap = Gaslap::all();
+                    $tabel = ProdukMasuk::join('gaslap', 'gaslap.gaslap_id', '=', 'produk_masuk.gaslap_id')
+                                    ->join('produk', 'produk.produk_id', '=', 'produk_masuk.produk_id')
+                                    ->leftJoin('distributor','distributor.dist_id','=','produk_masuk.dist_id')
+                                    ->leftJoin('kios','kios.kios_id','=','produk_masuk.kios_id')
+                                    ->select('produk_masuk.*',  'gaslap.nama_gaslap', 'produk.nama_produk', 'distributor.nama_dist', 'kios.nama_kios')
+                                    ->whereYear('produk_masuk.tanggal', $request->tahun)
+                                    ->get();
+                } else {
+                    $gaslap = Gaslap::where("user_id", Auth::user()->user_id)->get();
+                    $tabel = ProdukMasuk::join('gaslap', 'gaslap.gaslap_id', '=', 'produk_masuk.gaslap_id')
+                                    ->join('produk', 'produk.produk_id', '=', 'produk_masuk.produk_id')
+                                    ->leftJoin('distributor','distributor.dist_id','=','produk_masuk.dist_id')
+                                    ->leftJoin('kios','kios.kios_id','=','produk_masuk.kios_id')
+                                    ->select('produk_masuk.*',  'gaslap.nama_gaslap', 'gaslap.user_id', 'produk.nama_produk', 'distributor.nama_dist', 'kios.nama_kios')
+                                    ->where('gaslap.user_id', '=', Auth::user()->user_id)
+                                    ->whereYear('produk_masuk.tanggal', $request->tahun)
+                                    ->get();
+                }
+                $pdf = PDF::loadView('pdf.data-produk-masuk-pdf', compact('gaslap', 'tabel'));
+                $pdf->setPaper('A4', 'landscape');
+                return $pdf->download('laporan-produk-masuk-tahun-' . $request->tahun . '.pdf');
+            } elseif ($pilihFilter === 'bulan') {
+                if (Auth::user()->role == 1) {
+                    $gaslap = Gaslap::all();
+                    $tabel = ProdukMasuk::join('gaslap', 'gaslap.gaslap_id', '=', 'produk_masuk.gaslap_id')
+                                    ->join('produk', 'produk.produk_id', '=', 'produk_masuk.produk_id')
+                                    ->leftJoin('distributor','distributor.dist_id','=','produk_masuk.dist_id')
+                                    ->leftJoin('kios','kios.kios_id','=','produk_masuk.kios_id')
+                                    ->select('produk_masuk.*',  'gaslap.nama_gaslap', 'produk.nama_produk', 'distributor.nama_dist', 'kios.nama_kios')
+                                    ->whereMonth('produk_masuk.tanggal', $request->bulan)
+                                    ->get();
+                } else {
+                    $gaslap = Gaslap::where("user_id", Auth::user()->user_id)->get();
+                    $tabel = ProdukMasuk::join('gaslap', 'gaslap.gaslap_id', '=', 'produk_masuk.gaslap_id')
+                                    ->join('produk', 'produk.produk_id', '=', 'produk_masuk.produk_id')
+                                    ->leftJoin('distributor','distributor.dist_id','=','produk_masuk.dist_id')
+                                    ->leftJoin('kios','kios.kios_id','=','produk_masuk.kios_id')
+                                    ->select('produk_masuk.*',  'gaslap.nama_gaslap', 'gaslap.user_id', 'produk.nama_produk', 'distributor.nama_dist', 'kios.nama_kios')
+                                    ->where('gaslap.user_id', '=', Auth::user()->user_id)
+                                    ->whereMonth('produk_masuk.tanggal', $request->bulan)
+                                    ->get();
+                }
+                $pdf = PDF::loadView('pdf.data-produk-masuk-pdf', compact('gaslap', 'tabel'));
+                $pdf->setPaper('A4', 'landscape');
+                return $pdf->download('laporan-produk-masuk-bulan-' . $request->bulan . '.pdf');
+            } else {
+                if (Auth::user()->role == 1) {
+                    $gaslap = Gaslap::all();
+                    $tabel = ProdukMasuk::join('gaslap', 'gaslap.gaslap_id', '=', 'produk_masuk.gaslap_id')
+                                    ->join('produk', 'produk.produk_id', '=', 'produk_masuk.produk_id')
+                                    ->leftJoin('distributor','distributor.dist_id','=','produk_masuk.dist_id')
+                                    ->leftJoin('kios','kios.kios_id','=','produk_masuk.kios_id')
+                                    ->select('produk_masuk.*',  'gaslap.nama_gaslap', 'produk.nama_produk', 'distributor.nama_dist', 'kios.nama_kios')
+                                    ->where('produk_masuk.tanggal', $request->tanggal)
+                                    ->get();
+                } else {
+                    $gaslap = Gaslap::where("user_id", Auth::user()->user_id)->get();
+                    $tabel = ProdukMasuk::join('gaslap', 'gaslap.gaslap_id', '=', 'produk_masuk.gaslap_id')
+                                    ->join('produk', 'produk.produk_id', '=', 'produk_masuk.produk_id')
+                                    ->leftJoin('distributor','distributor.dist_id','=','produk_masuk.dist_id')
+                                    ->leftJoin('kios','kios.kios_id','=','produk_masuk.kios_id')
+                                    ->select('produk_masuk.*',  'gaslap.nama_gaslap', 'gaslap.user_id', 'produk.nama_produk', 'distributor.nama_dist', 'kios.nama_kios')
+                                    ->where('gaslap.user_id', '=', Auth::user()->user_id)
+                                    ->where('produk_masuk.tanggal', $request->tanggal)
+                                    ->get();
+                }
+            }
+            $pdf = PDF::loadView('pdf.data-produk-masuk-pdf', compact('gaslap', 'tabel'));
+                $pdf->setPaper('A4', 'landscape');
+                return $pdf->download('laporan-produk-masuk-tanggal-' . $request->tanggal . '.pdf');
         } else {
             return redirect('login')->with('error','Anda Belum Login');
         }

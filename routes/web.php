@@ -45,3 +45,4 @@ Route::get('/dist/{produk_id}/hapus', [App\Http\Controllers\DistributorControlle
 Route::post('/produk-masuk', [App\Http\Controllers\IndexController::class, 'create'])->name('create.produk-masuk');
 Route::post('/produk-masuk/{id_produk_masuk}/edit', [App\Http\Controllers\IndexController::class,'update'])->name('update.produk-masuk');
 Route::get('/produk-masuk/{produk_masuk_id}/hapus', [App\Http\Controllers\IndexController::class, 'destroy'])->name('destroy.produk-masuk');
+Route::post('/laporanPdf', [App\Http\Controllers\IndexController::class,'laporanPDF'])->name('cetak-pdf');
